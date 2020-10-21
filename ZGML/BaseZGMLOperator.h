@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ZGMLOperatorReturnValue.h"
 class BaseZGMLOperator
 {
 protected:
@@ -7,7 +8,7 @@ protected:
 public:
 	BaseZGMLOperator(std::string symbol);
 	const std::string getSymbol()const;
-	virtual bool Action(const std::string& input, size_t& beginInput, size_t& endInput, std::string& subQuery) = 0;
+	virtual ZGMLOperatorReturnValue Action(const std::string& input, size_t& beginInput, size_t& endInput, std::string& subQuery, std::string& out) = 0;
 	virtual ~BaseZGMLOperator();
 };
 

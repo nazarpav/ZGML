@@ -1,9 +1,10 @@
 #pragma once
 #include"BaseZGMLOperator.h"
-class TildeOperator:public BaseZGMLOperator 
+#include "ZGMLOperatorReturnValue.h"
+class TildeOperator:public BaseZGMLOperator
 {
 public:
 	TildeOperator();
-	bool Action(const std::string& input, size_t& beginInput, size_t& endInput, std::string& subQuery)override;
+	ZGMLOperatorReturnValue Action(const std::string& input, size_t& beginInput, size_t& endInput, std::string& subQuery, std::string& out)override;
 };
 

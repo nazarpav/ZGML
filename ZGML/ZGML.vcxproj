@@ -150,6 +150,7 @@
     <ClInclude Include="DotOperator.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="TildeOperator.h" />
+    <ClInclude Include="ZGMLOperatorReturnValue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

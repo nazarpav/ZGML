@@ -1,5 +1,6 @@
 #pragma once
 #include"BaseZGMLOperator.h"
+#include"ZGMLOperatorReturnValue.h"
 #include <vector>
 #include<iostream>
 #include <memory>

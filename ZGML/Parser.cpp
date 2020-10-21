@@ -44,10 +44,10 @@ const std::shared_ptr<BaseZGMLOperator> Parser::findFirstOperator(const std::str
 
 std::string Parser::parse(const std::string inputData, const std::string query, std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, std::shared_ptr<BaseZGMLOperator>& defaulthOperator)
 {
-	std::string res;
-	if (IsParameterCorrect(inputData, query, operators, defaulthOperator, res))
+	std::string out;
+	if (!IsParameterCorrect(inputData, query, operators, defaulthOperator, out))
 	{
-		return res;
+		return out;
 	}
 	size_t beginInput = 0u;
 	size_t endInput = inputData.size();
@@ -64,7 +64,17 @@ std::string Parser::parse(const std::string inputData, const std::string query, 
 		findFirstOperator(query, beginSubQuery + currentOperator->getSymbol().size(), operators, firstOperatorIndex);
 		endSubQuery = firstOperatorIndex == std::string::npos ? query.size() : firstOperatorIndex;
 		subQuery = query.substr(beginSubQuery + currentOperator->getSymbol().size(), endSubQuery - beginSubQuery - currentOperator->getSymbol().size());
-		currentOperator->Action(inputData, beginInput, endInput, subQuery);
+		switch (currentOperator->Action(inputData, beginInput, endInput, subQuery, out))
+		{
+		case ZGMLOperatorReturnValue::Error:
+			return out;
+			break;
+		case ZGMLOperatorReturnValue::Exit:
+			return out;
+			break;
+		case ZGMLOperatorReturnValue::Next:
+			break;
+		}
 		beginSubQuery = endSubQuery;
 	}
 }
