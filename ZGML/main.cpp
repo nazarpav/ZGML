@@ -13,9 +13,9 @@ int main()
 {
 	const std::string inputData
 	(
-		"<tag>        <tag1 value = \"super\"></tag1><tag2 name = \"good\"><tag3></tag3></tag2></tag>"
+		"<tag><tag1 value = \"super\"></tag1><tag2 name = \"good\"><tag1 value = \"super\"></tag1></tag2></tag>"
 	);
-	const std::string query(".tag.tag1~value");
+	const std::string query("tag.tag2.tag1~value");
 #pragma region hide
 	std::vector<std::shared_ptr<BaseZGMLOperator>> useSymbols;
 	useSymbols.push_back(std::make_shared<DotOperator>());
@@ -23,6 +23,6 @@ int main()
 	std::shared_ptr<BaseZGMLOperator> baseSymbol = std::make_shared<DotOperator>();
 #pragma endregion
 	Parser p;
-	std::cout << "\n" << p.parse(inputData, query, useSymbols, baseSymbol)<<std::endl;
+	std::cout << p.parse(inputData, query, useSymbols, baseSymbol)<<std::endl;
 	return 0;
 }

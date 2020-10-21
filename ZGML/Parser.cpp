@@ -1,4 +1,10 @@
 #include "Parser.h"
+const bool Parser::CheckIsQueryBeginFromOperator(const std::string& query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators)
+{
+	size_t firstOperatorIndex;
+	findFirstOperator(query, 0, operators, firstOperatorIndex);
+	return firstOperatorIndex != 0;
+}
 const bool Parser::IsParameterCorrect(const std::string inputData, const std::string query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, const std::shared_ptr<BaseZGMLOperator>& defaulthOperator, std::string& error)
 {
 	if (inputData.size() == 0)
@@ -42,9 +48,9 @@ const std::shared_ptr<BaseZGMLOperator> Parser::findFirstOperator(const std::str
 	return firstOperator;
 }
 
-std::string Parser::parse(const std::string inputData, const std::string query, std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, std::shared_ptr<BaseZGMLOperator>& defaulthOperator)
+std::string Parser::parse(const std::string inputData, std::string query, const std::vector<std::shared_ptr<BaseZGMLOperator>> operators, const std::shared_ptr<BaseZGMLOperator> defaulthOperator)
 {
-	std::string out;
+	std::string out = "";
 	if (!IsParameterCorrect(inputData, query, operators, defaulthOperator, out))
 	{
 		return out;
@@ -56,6 +62,8 @@ std::string Parser::parse(const std::string inputData, const std::string query, 
 	std::shared_ptr<BaseZGMLOperator>  currentOperator;
 	std::string subQuery;
 	size_t firstOperatorIndex;
+	if (CheckIsQueryBeginFromOperator(query, operators))
+		query = defaulthOperator->getSymbol() + query;
 	while (true)
 	{
 		currentOperator = findFirstOperator(query, beginSubQuery, operators, firstOperatorIndex);
