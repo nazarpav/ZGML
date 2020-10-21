@@ -5,16 +5,18 @@ DotOperator::DotOperator() :BaseZGMLOperator(".")
 }
 ZGMLOperatorReturnValue DotOperator::Action(const std::string& input, size_t& beginInput, size_t& endInput, std::string& subQuery, std::string& out)
 {
-	std::string input_ = input.substr(beginInput, endInput - beginInput);
-	beginInput = input_.find("<" + subQuery);
-	if (beginInput != std::string::npos)
+	const std::string outError = "Not exist tag : " + subQuery;
+	beginInput = input.find("<" + subQuery, beginInput);
+	if (beginInput == std::string::npos)
 	{
-		input_ = input.substr(beginInput, endInput - beginInput);
-		endInput = input_.find("</" + subQuery + ">");
+		out = outError;
+		return ZGMLOperatorReturnValue::Error;
 	}
-	if (beginInput == std::string::npos || endInput == std::string::npos)
+	size_t endOfOpenTag = input.find(">", beginInput);
+	endInput = input.find("</" + subQuery + ">", endOfOpenTag);
+	if (endInput == std::string::npos)
 	{
-		out = "Not exist tag : " + subQuery;
+		out = outError;
 		return ZGMLOperatorReturnValue::Error;
 	}
 	return ZGMLOperatorReturnValue::Next;
