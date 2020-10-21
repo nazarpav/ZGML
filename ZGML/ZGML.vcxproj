@@ -142,11 +142,13 @@
     <ClCompile Include="DotOperator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BaseZGMLOperator.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="TildeOperator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseZGMLOperator.h" />
     <ClInclude Include="DotOperator.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="TildeOperator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
