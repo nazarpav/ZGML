@@ -5,10 +5,12 @@ MainComponent::MainComponent() :
 	testProgramOutputLabel("testProgramOutputLabel", "Output:"),
 	inputDataLabel("inputDataLabel", "Input data:"),
 	getTextButton("Get"),
+	loadIputDataFromFileTextButton("Load input data from file"),
 	testProgramTestTextButton("Test"),
 	testProgramSelectFileTextButton("SelectFile"),
 	queryLabel("queryLabel", "Query:"),
-	outputLabel("outputLabel", "Output data:")
+	outputLabel("outputLabel", "Output data:"),
+	inputFileName("")
 {
 	size_t windowW = 1280;
 	size_t windowH = 720;
@@ -17,6 +19,21 @@ MainComponent::MainComponent() :
 	inputDataLabel.setSize(300, 40);
 	inputDataLabel.setFont(juce::Font(24.f));
 	addAndMakeVisible(inputDataLabel);
+	//
+	loadIputDataFromFileTextButton.setTopLeftPosition(150, 8);
+	loadIputDataFromFileTextButton.setSize(200, 30);
+	loadIputDataFromFileTextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::green);
+	loadIputDataFromFileTextButton.onClick = [&]() {
+		juce::FileChooser fileExplorer("Select file");
+		fileExplorer.browseForFileToOpen();
+		auto inputFile = fileExplorer.getResult().getFullPathName().toStdString();
+		if (inputFileName.size() == 0)
+		{
+			inputDataTextEditor.setText("Please, select file");
+		}
+		inputDataTextEditor.setText(inputFileParser.ParseFromFileGetInputData(inputFile));
+	};
+	addAndMakeVisible(loadIputDataFromFileTextButton);
 	//
 	inputDataTextEditor.setTopLeftPosition(10, 40);
 	inputDataTextEditor.setSize(800, 400);
@@ -71,9 +88,17 @@ MainComponent::MainComponent() :
 	//
 	testProgramSelectFileTextButton.setTopLeftPosition(windowW - 250, 90);
 	testProgramSelectFileTextButton.setSize(130, 50);
+	testProgramSelectFileTextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::yellow);
+	testProgramSelectFileTextButton.setColour(juce::TextButton::ColourIds::textColourOffId, juce::Colours::black);
 	testProgramSelectFileTextButton.onClick = [&]() {
-		/*fileExplorer.browseForFileToOpen();
-		juce::String name = fileExplorer.getResult().getFullPathName();*/
+		juce::FileChooser fileExplorer("Select file");
+		fileExplorer.browseForFileToOpen();
+		inputFileName = fileExplorer.getResult().getFullPathName().toStdString();
+		if (inputFileName.size() == 0)
+		{
+			testProgramOutputTextEditor.setText("Please, select file");
+		}
+		testProgramQueryTextEditor.setText(inputFileParser.ParseFromFileGetQueries(inputFileName));
 	};
 	addAndMakeVisible(testProgramSelectFileTextButton);
 	//
@@ -109,8 +134,11 @@ MainComponent::MainComponent() :
 	testProgramTestTextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::red);
 	testProgramTestTextButton.setSize(130, 50);
 	testProgramTestTextButton.onClick = [&]() {
-		/*fileExplorer.browseForFileToOpen();
-		juce::String name = fileExplorer.getResult().getFullPathName();*/
+		if (inputFileName.size() == 0)
+		{
+			testProgramOutputTextEditor.setText("Please, select file");
+		}
+		testProgramOutputTextEditor.setText(inputFileParser.ParseFromFileGetData(inputFileName));
 	};
 	addAndMakeVisible(testProgramTestTextButton);
 }

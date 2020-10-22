@@ -1,6 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "StandartParser.h"
+#include "InputFileParser.h"
 
 class MainComponent  : public juce::Component
 {
@@ -10,9 +11,13 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 private:
+    InputFileParser inputFileParser;
+    std::string inputFileName;
+    //
     juce::TextEditor inputDataTextEditor;
     juce::TextEditor queryTextEditor;
     juce::TextButton getTextButton;
+    juce::TextButton loadIputDataFromFileTextButton;
     juce::Label inputDataLabel;
     juce::Label queryLabel;
     juce::Label outputLabel;

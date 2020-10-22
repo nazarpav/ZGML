@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\BaseZGMLOperator.cpp" />
     <ClCompile Include="..\..\Source\DotOperator.cpp" />
+    <ClCompile Include="..\..\Source\InputFileParser.cpp" />
     <ClCompile Include="..\..\Source\Main.cpp" />
     <ClCompile Include="..\..\Source\MainComponent.cpp" />
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_core\containers\juce_AbstractFifo.cpp">
@@ -1246,6 +1247,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\BaseZGMLOperator.h" />
     <ClInclude Include="..\..\Source\DotOperator.h" />
+    <ClInclude Include="..\..\Source\InputFileParser.h" />
     <ClInclude Include="..\..\Source\MainComponent.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\containers\juce_AbstractFifo.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\containers\juce_Array.h" />

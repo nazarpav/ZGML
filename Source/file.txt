@@ -1,66 +1,12 @@
+8 3
 <tag>
-	<tag>
-		<tag2>
-			<tag2>
-				<tag2>
-					<tag2>
-						<tag2>
-							<tag2>
-								<tag2>
-									<tag2>
-										<tag2>
-											<tag2>
-												<tag2>
-													<tag2>
-														<tag2>
-															<tag2>
-																<tag2>
-																	<tag2>
-																		<tag2>
-																			<tag2>
-																				<tag2>
-																					<tag2>
-																						<tag2>
-																								<tag2>
-																									<tag2>
-																										<tag2>
-																											<tag2>
-																												<tag2>
-																													<tag2>
-																														<tag2>
-																															<tag2>
-																																<tag2 atr = "C#" attr = "C++">
-																																</tag2>
-																															</tag2>
-																														</tag2>
-																													</tag2>
-																												</tag2>
-																											</tag2>
-																										</tag2>
-																									</tag2>
-																								</tag2>
-																							</tag2>
-																						</tag2>
-																					</tag2>
-																				</tag2>
-																			</tag2>
-																		</tag2>
-																	</tag2>
-																</tag2>
-															</tag2>
-														</tag2>
-													</tag2>
-												</tag2>
-											</tag2>
-										</tag2>
-									</tag2>
-								</tag2>
-							</tag2>
-						</tag2>
-					</tag2>
-				</tag2>
-			</tag2>
-		</tag2>
-	</tag>
+	<tag2 name = "nazar">
+	</tag2>
+	<tag3>
+		<tag4 attr = "c++">
+		</tag4>
+	</tag3>
 </tag>
-</tag>
+tag.tag3.tag4~attr
+tag.tag2~name
+tag.tag3~w
