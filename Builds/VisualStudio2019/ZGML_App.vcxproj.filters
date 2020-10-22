@@ -1350,6 +1350,9 @@
     <ClCompile Include="..\..\Source\TildeOperator.cpp">
       <Filter>ZGML\Source\Task\Source files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\StandartParser.cpp">
+      <Filter>ZGML\Source\Task\Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\containers\juce_AbstractFifo.h">
@@ -2493,6 +2496,9 @@
       <Filter>ZGML\Source\Task\Header files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ZGMLOperatorReturnValue.h">
+      <Filter>ZGML\Source\Task\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\StandartParser.h">
       <Filter>ZGML\Source\Task\Header files</Filter>
     </ClInclude>
   </ItemGroup>

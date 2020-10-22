@@ -48,7 +48,7 @@ const std::shared_ptr<BaseZGMLOperator> Parser::findFirstOperator(const std::str
 	return firstOperator;
 }
 
-const std::string Parser::parse(const std::string inputData, std::string query, const std::vector<std::shared_ptr<BaseZGMLOperator>> operators, const std::shared_ptr<BaseZGMLOperator> defaulthOperator)
+const std::string Parser::parse(const std::string& inputData, std::string& query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, const std::shared_ptr<BaseZGMLOperator>& defaulthOperator)
 {
 	std::string out = "";
 	if (!IsParameterCorrect(inputData, query, operators, defaulthOperator, out))

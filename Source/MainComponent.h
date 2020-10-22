@@ -1,8 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
-#include"Parser.h"
-#include "DotOperator.h"
-#include "TildeOperator.h"
+#include "StandartParser.h"
 
 class MainComponent  : public juce::Component
 {

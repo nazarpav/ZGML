@@ -42,12 +42,8 @@ MainComponent::MainComponent() :
 	getTextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::red);
 	getTextButton.setSize(185, 40);
 	getTextButton.onClick = [&]() {
-		std::vector<std::shared_ptr<BaseZGMLOperator>> useSymbols;
-		useSymbols.push_back(std::make_shared<DotOperator>());
-		useSymbols.push_back(std::make_shared<TildeOperator>());
-		std::shared_ptr<BaseZGMLOperator> baseSymbol = std::make_shared<DotOperator>();
-		Parser p;
-		outputTextEditor.setText(p.parse(inputDataTextEditor.getText().toStdString(), queryTextEditor.getText().toStdString(), useSymbols, baseSymbol));
+		StandartParser parser;
+		outputTextEditor.setText(parser.parse(inputDataTextEditor.getText().toStdString(), queryTextEditor.getText().toStdString()));
 	};
 	addAndMakeVisible(getTextButton);
 	//

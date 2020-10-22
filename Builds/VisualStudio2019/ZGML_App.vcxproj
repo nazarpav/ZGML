@@ -1240,6 +1240,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_graphics.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp" />
     <ClCompile Include="..\..\Source\Parser.cpp" />
+    <ClCompile Include="..\..\Source\StandartParser.cpp" />
     <ClCompile Include="..\..\Source\TildeOperator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -1622,6 +1623,7 @@
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
     <ClInclude Include="..\..\Source\Parser.h" />
+    <ClInclude Include="..\..\Source\StandartParser.h" />
     <ClInclude Include="..\..\Source\TildeOperator.h" />
     <ClInclude Include="..\..\Source\ZGMLOperatorReturnValue.h" />
   </ItemGroup>
