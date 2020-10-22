@@ -67,7 +67,7 @@ const std::string Parser::parse(const std::string inputData, std::string query, 
 	while (true)
 	{
 		currentOperator = findFirstOperator(query, beginSubQuery, operators, firstOperatorIndex);
-		if (firstOperatorIndex == std::string::npos)return "";
+		if (firstOperatorIndex == std::string::npos)return "UB";
 		beginSubQuery = firstOperatorIndex;
 		findFirstOperator(query, beginSubQuery + currentOperator->getSymbol().size(), operators, firstOperatorIndex);
 		endSubQuery = firstOperatorIndex == std::string::npos ? query.size() : firstOperatorIndex;

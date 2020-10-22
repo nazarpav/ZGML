@@ -1,6 +1,4 @@
 #include "MainComponent.h"
-
-
 MainComponent::MainComponent() :
 	testProgramLabelLabel("testProgramLabelLabel", "Test program with file"),
 	testProgramQueryLabel("testProgramQueryLabel", "Query list:"),
@@ -68,10 +66,6 @@ MainComponent::MainComponent() :
 	outputTextEditor.setTabKeyUsedAsCharacter(true);
 	outputTextEditor.setEnabled(false);
 	addAndMakeVisible(outputTextEditor);
-
-
-
-
 	//////////////#########################
 	testProgramLabelLabel.setTopLeftPosition(windowW - 340, 30);
 	testProgramLabelLabel.setSize(300, 40);
@@ -123,21 +117,6 @@ MainComponent::MainComponent() :
 		juce::String name = fileExplorer.getResult().getFullPathName();*/
 	};
 	addAndMakeVisible(testProgramTestTextButton);
-	//
-
-
-
-
-
-	/*std::string inputData_("<tag><tag2>\n</tag2><tag1><tag1 arg = \"is work\"></tag1></tag1></tag>");
-	std::string query("tag.tag1.tag1~arg");
-	std::vector<std::shared_ptr<BaseZGMLOperator>> useSymbols;
-	useSymbols.push_back(std::make_shared<DotOperator>());
-	useSymbols.push_back(std::make_shared<TildeOperator>());
-	std::shared_ptr<BaseZGMLOperator> baseSymbol = std::make_shared<DotOperator>();
-	Parser p;
-	std::chrono::steady_clock::time_point start = std::chrono::high_resolution_clock::now();
-	std::string re =p.parse(inputData_, query, useSymbols, baseSymbol);*/
 }
 
 MainComponent::~MainComponent()
