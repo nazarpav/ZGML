@@ -12,6 +12,10 @@ const std::string InputFileParser::ParseFromFileGetQueries(const std::string fil
 		size_t Q;
 		getline(inputFile, line);
 		auto spliterIndex = line.find(spliter);
+		if (spliterIndex == std::string::npos || spliterIndex == 0)
+		{
+			return "Q or N not valid";
+		}
 		auto Nstr = line.substr(0, spliterIndex);
 		N = std::stoi(Nstr);
 		auto spliterIndexEnd = line.find(spliter, spliterIndex + spliter.size());
@@ -46,12 +50,20 @@ const std::string InputFileParser::ParseFromFileGetInputData(const std::string f
 		size_t N;
 		getline(inputFile, line);
 		auto spliterIndex = line.find(spliter);
+		if (spliterIndex == 0)
+		{
+			return "N not valid";
+		}
+		else if (spliterIndex == std::string::npos)
+		{
+			spliterIndex = line.size();
+		}
 		auto Nstr = line.substr(0, spliterIndex);
 		N = std::stoi(Nstr);
 		for (size_t i = 0; i < N; i++)
 		{
 			getline(inputFile, line);
-			outInputData += line+"\n";
+			outInputData += line + "\n";
 		}
 		inputFile.close();
 	}
@@ -74,6 +86,10 @@ const std::string InputFileParser::ParseFromFileGetData(const std::string filePa
 		size_t Q;
 		getline(inputFile, line);
 		auto spliterIndex = line.find(spliter);
+		if (spliterIndex == std::string::npos || spliterIndex == 0)
+		{
+			return "Q or N not valid";
+		}
 		auto Nstr = line.substr(0, spliterIndex);
 		N = std::stoi(Nstr);
 		auto spliterIndexEnd = line.find(spliter, spliterIndex + spliter.size());

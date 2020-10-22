@@ -1,4 +1,4 @@
-8 3
+8
 <tag>
 	<tag2 name = "nazar">
 	</tag2>
