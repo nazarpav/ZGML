@@ -17,11 +17,11 @@ ZGMLOperatorReturnValue TildeOperator::Action(const std::string& input, size_t& 
 	size_t beginAttributeIndex = findBeginAttributeIndex(trimedInput, subQuery);
 	if (beginAttributeIndex == std::string::npos) {
 		out = outErrorMessage;
-		return ZGMLOperatorReturnValue::Error;
+		return ZGMLOperatorReturnValue::Warning;
 	}
 	std::pair<std::string, bool> res = getAttributeValue(trimedInput, beginAttributeIndex + 1 + subQuery.size(), beginSymbol, endSymbol);
 	out = res.first;
-	return res.second ? ZGMLOperatorReturnValue::Exit : ZGMLOperatorReturnValue::Error;
+	return res.second ? ZGMLOperatorReturnValue::CorrectExit : ZGMLOperatorReturnValue::Error;
 }
 
 const bool TildeOperator::trimTagToEnd(std::string& input, std::string& error)const

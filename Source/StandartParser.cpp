@@ -1,5 +1,5 @@
 #include "StandartParser.h"
-
+#include"ZGMLOperatorReturnValue.h"
 StandartParser::StandartParser() :
 	defaulthOperator(std::make_shared<DotOperator>()),
 	operators
@@ -10,7 +10,7 @@ StandartParser::StandartParser() :
 {
 }
 
-std::string StandartParser::parse(std::string inputData, std::string query)
+const std::string StandartParser::parse(const std::string& inputData, const std::string& query, ZGMLOperatorReturnValue& resultIdentificator, const bool isAllowWhiteSpaceInQuery) const
 {
-	return _parser.parse(inputData, query, operators, defaulthOperator);
+	return _parser.parse(inputData, query, operators, defaulthOperator, resultIdentificator, isAllowWhiteSpaceInQuery);
 }

@@ -13,6 +13,6 @@ class StandartParser
 	Parser _parser;
 public:
 	StandartParser();
-	std::string parse(std::string inputData, std::string query);
+	const std::string parse(const std::string& inputData, const std::string& query, ZGMLOperatorReturnValue& resultIdentificator, const bool isAllowWhiteSpaceInQuery) const;
 };
 

@@ -1,11 +1,9 @@
 #include"InputFileParser.h"
-const std::string InputFileParser::ParseFromFileGetQueries(const std::string filePath)
+const bool InputFileParser::ParseFromFileGetQueries(const std::string filePath, std::vector<std::string>& queries, std::string& error)
 {
 	std::string line;
 	std::ifstream inputFile(filePath);
 	std::string spliter(" ");
-	std::string queries("");
-	std::vector<std::string>queriesVector;
 	if (inputFile.is_open())
 	{
 		size_t N;
@@ -14,7 +12,8 @@ const std::string InputFileParser::ParseFromFileGetQueries(const std::string fil
 		auto spliterIndex = line.find(spliter);
 		if (spliterIndex == std::string::npos || spliterIndex == 0)
 		{
-			return "Q or N not valid";
+			error = "Q or N not valid";
+			return false;
 		}
 		auto Nstr = line.substr(0, spliterIndex);
 		N = std::stoi(Nstr);
@@ -30,14 +29,15 @@ const std::string InputFileParser::ParseFromFileGetQueries(const std::string fil
 		for (size_t i = 0; i < Q; i++)
 		{
 			getline(inputFile, line);
-			queries += line + "\n";
+			queries.push_back(line);
 		}
 		inputFile.close();
 	}
 	else {
-		return "File not found!";
+		error = "File not found";
+		return false;
 	}
-	return queries;
+	return true;
 }
 const std::string InputFileParser::ParseFromFileGetInputData(const std::string filePath)
 {
@@ -73,49 +73,3 @@ const std::string InputFileParser::ParseFromFileGetInputData(const std::string f
 	return outInputData;
 }
 
-const std::string InputFileParser::ParseFromFileGetData(const std::string filePath)
-{
-	std::string line;
-	std::ifstream inputFile(filePath);
-	std::string spliter(" ");
-	std::string inputData("");
-	std::vector<std::string>queriesVector;
-	if (inputFile.is_open())
-	{
-		size_t N;
-		size_t Q;
-		getline(inputFile, line);
-		auto spliterIndex = line.find(spliter);
-		if (spliterIndex == std::string::npos || spliterIndex == 0)
-		{
-			return "Q or N not valid";
-		}
-		auto Nstr = line.substr(0, spliterIndex);
-		N = std::stoi(Nstr);
-		auto spliterIndexEnd = line.find(spliter, spliterIndex + spliter.size());
-		if (spliterIndexEnd == std::string::npos)
-			spliterIndexEnd = line.size();
-		auto Qstr = line.substr(spliterIndex + spliter.size(), spliterIndexEnd);
-		Q = std::stoi(Qstr);
-		for (size_t i = 0; i < N; i++)
-		{
-			getline(inputFile, line);
-			inputData += line;
-		}
-		for (size_t i = 0; i < Q; i++)
-		{
-			getline(inputFile, line);
-			queriesVector.push_back(std::string(line));
-		}
-		inputFile.close();
-	}
-	else {
-		return "File not found!";
-	}
-	std::string outData;
-	for (auto val : queriesVector)
-	{
-		outData += parser.parse(inputData, val) + "\n";
-	}
-	return outData;
-}

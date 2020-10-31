@@ -1,11 +1,11 @@
 #include "Parser.h"
-const bool Parser::CheckIsQueryBeginFromOperator(const std::string& query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators)
+const bool Parser::CheckIsQueryBeginFromOperator(const std::string& query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators)const
 {
 	size_t firstOperatorIndex;
 	findFirstOperator(query, 0, operators, firstOperatorIndex);
 	return firstOperatorIndex != 0;
 }
-const bool Parser::IsParameterCorrect(const std::string inputData, const std::string query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, const std::shared_ptr<BaseZGMLOperator>& defaulthOperator, std::string& error)
+const bool Parser::IsParameterCorrect(const std::string inputData, const std::string query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, const std::shared_ptr<BaseZGMLOperator>& defaulthOperator, std::string& error)const
 {
 	if (inputData.size() == 0)
 	{
@@ -48,12 +48,13 @@ const std::shared_ptr<BaseZGMLOperator> Parser::findFirstOperator(const std::str
 	return firstOperator;
 }
 
-const std::string Parser::parse(const std::string& inputData, std::string& query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, const std::shared_ptr<BaseZGMLOperator>& defaulthOperator)
+const std::string Parser::parse(const std::string& inputData, const std::string& _query, const std::vector<std::shared_ptr<BaseZGMLOperator>>& operators, const std::shared_ptr<BaseZGMLOperator>& defaulthOperator, ZGMLOperatorReturnValue& resultIdentificator, const bool isAllowWhiteSpaceInQuery)const
 {
 	std::string out = "";
-	if (!IsParameterCorrect(inputData, query, operators, defaulthOperator, out))
-	{
-		return out;
+	std::string query = _query;
+	if (!IsParameterCorrect(inputData, query, operators, defaulthOperator, out)) {
+		resultIdentificator = ZGMLOperatorReturnValue::Error;
+		return std::move(out);
 	}
 	size_t beginInput = 0u;
 	size_t endInput = inputData.size();
@@ -67,18 +68,29 @@ const std::string Parser::parse(const std::string& inputData, std::string& query
 	while (true)
 	{
 		currentOperator = findFirstOperator(query, beginSubQuery, operators, firstOperatorIndex);
-		if (firstOperatorIndex == std::string::npos)return "UB";
+		if (firstOperatorIndex == std::string::npos) {
+			resultIdentificator = ZGMLOperatorReturnValue::Error;
+			return "Undefined behavior";
+		}
 		beginSubQuery = firstOperatorIndex;
 		findFirstOperator(query, beginSubQuery + currentOperator->getSymbol().size(), operators, firstOperatorIndex);
 		endSubQuery = firstOperatorIndex == std::string::npos ? query.size() : firstOperatorIndex;
 		subQuery = query.substr(beginSubQuery + currentOperator->getSymbol().size(), endSubQuery - beginSubQuery - currentOperator->getSymbol().size());
+		if (isAllowWhiteSpaceInQuery)
+			subQuery.erase(remove(subQuery.begin(), subQuery.end(), ' '), subQuery.end());
 		switch (currentOperator->Action(inputData, beginInput, endInput, subQuery, out))
 		{
 		case ZGMLOperatorReturnValue::Error:
-			return out;
+			resultIdentificator = ZGMLOperatorReturnValue::Error;
+			return std::move(out);
 			break;
-		case ZGMLOperatorReturnValue::Exit:
-			return out;
+		case ZGMLOperatorReturnValue::Warning:
+			resultIdentificator = ZGMLOperatorReturnValue::Warning;
+			return std::move(out);
+			break;
+		case ZGMLOperatorReturnValue::CorrectExit:
+			resultIdentificator = ZGMLOperatorReturnValue::CorrectExit;
+			return std::move(out);
 			break;
 		case ZGMLOperatorReturnValue::Next:
 			beginSubQuery = endSubQuery;

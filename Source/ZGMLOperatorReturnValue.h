@@ -1,7 +1,8 @@
 #pragma once
 enum class ZGMLOperatorReturnValue
 {
-	Exit = 2,
+	CorrectExit = 2,
 	Error = 4,
-	Next = 8
+	Warning = 8,
+	Next = 16
 };
