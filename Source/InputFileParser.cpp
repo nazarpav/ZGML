@@ -1,19 +1,18 @@
 #include"InputFileParser.h"
 const bool InputFileParser::ParseFromFileGetQueries(const std::string& filePath, std::vector<std::string>& queries, std::string& error)
 {
-	std::ifstream inputFile(filePath);
-	if (inputFile.is_open()) {
-		std::string input;
-		std::string line;
-		while (std::getline(inputFile, line))input += line + "\n";
-		inputFile.close();
-		return ParseFromStringGetQueries(input, queries, error);
+	bool isCorrect;
+	std::string res = GetAllDataFromFile(filePath, isCorrect);
+	if (isCorrect) {
+		ParseFromStringGetQueries(res, queries, error);
+		return true;
 	}
 	else {
-		return "File not found!";
+		error = res;
+		return false;
 	}
 }
-const std::string InputFileParser::ParseFromFileGetInputData(const std::string filePath)
+const std::string InputFileParser::GetAllDataFromFile(const std::string filePath, bool& isCorrect)
 {
 	std::ifstream inputFile(filePath);
 	if (inputFile.is_open()) {
@@ -21,11 +20,22 @@ const std::string InputFileParser::ParseFromFileGetInputData(const std::string f
 		std::string line;
 		while (std::getline(inputFile, line))input += line + "\n";
 		inputFile.close();
-		return ParseFromStringGetInputData(input);
+		isCorrect = true;
+		return input;
 	}
 	else {
+		isCorrect = false;
 		return "File not found!";
 	}
+}
+const std::string InputFileParser::ParseFromFileGetInputData(const std::string filePath)
+{
+	bool isCorrect;
+	std::string res = GetAllDataFromFile(filePath, isCorrect);
+	if (isCorrect)
+		return ParseFromStringGetInputData(res);
+	else
+		return res;
 }
 const std::string InputFileParser::ParseFromStringGetInputData(const std::string input)
 {
