@@ -34,6 +34,10 @@ MainComponent::MainComponent() :
 	queryLabel("queryLabel", "Query:"),
 	outputLabel("outputLabel", "Output data:"),
 	isAllowWhiteSpaceInQuery("is allow white space in query"),
+	testProgramInputFileDataLabel("testProgramInputFileDataLabel", "InputFileData"),
+	testProgramOutput2Label("testProgramOutput2Label", "Output:"),
+	testProgramTest2TextButton("Test"),
+	testProgramInputFileDataLoadFromFileTextButton("Load from file"),
 	inputFileName(""),
 	defaulthFont(juce::Font(20.f))
 {
@@ -107,7 +111,7 @@ MainComponent::MainComponent() :
 	addAndMakeVisible(outputTextEditor);
 	//
 	isAllowWhiteSpaceInQuery.setTopLeftPosition(10, 680);
-	isAllowWhiteSpaceInQuery.setSize(800, 40);
+	isAllowWhiteSpaceInQuery.setSize(200, 40);
 	isAllowWhiteSpaceInQuery.setColour(juce::ToggleButton::ColourIds::textColourId, juce::Colours::orange);
 	addAndMakeVisible(isAllowWhiteSpaceInQuery);
 	//////////////#########################
@@ -203,6 +207,107 @@ MainComponent::MainComponent() :
 		}
 	};
 	addAndMakeVisible(testProgramTestTextButton);
+	//
+	testProgramInputFileDataLabel.setTopLeftPosition(15, 5);
+	testProgramInputFileDataLabel.setSize(300, 40);
+	testProgramInputFileDataLabel.setFont(defaulthFont);
+	addAndMakeVisible(testProgramInputFileDataLabel);
+	//
+	testProgramInputFileDataLoadFromFileTextButton.setTopLeftPosition(150, 8);
+	testProgramInputFileDataLoadFromFileTextButton.setSize(200, 30);
+	testProgramInputFileDataLoadFromFileTextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::green);
+	testProgramInputFileDataLoadFromFileTextButton.onClick = [this]()->void {
+		juce::FileChooser fileExplorer("Select file");
+		fileExplorer.browseForFileToOpen();
+		auto inputFile = fileExplorer.getResult().getFullPathName().toStdString();
+		if (inputFileName.size() == 0)
+		{
+			testProgramInputFileDataTextEditor.setText("Please, select file");
+		}
+		testProgramInputFileDataTextEditor.setText(inputFileParser.ParseFromFileGetInputData(inputFile));
+	};
+	addAndMakeVisible(testProgramInputFileDataLoadFromFileTextButton);
+	//
+	testProgramInputFileDataTextEditor.setTopLeftPosition(10, 40);
+	testProgramInputFileDataTextEditor.setSize(800, 250);
+	testProgramInputFileDataTextEditor.setMultiLine(true);
+	testProgramInputFileDataTextEditor.setReturnKeyStartsNewLine(true);
+	testProgramInputFileDataTextEditor.setTabKeyUsedAsCharacter(true);
+	testProgramInputFileDataTextEditor.setFont(defaulthFont);
+	addAndMakeVisible(testProgramInputFileDataTextEditor);
+	//
+	testProgramTest2TextButton.setTopLeftPosition(600, 630);
+	testProgramTest2TextButton.setSize(200, 30);
+	testProgramTest2TextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::orange);
+	testProgramTest2TextButton.onClick = [this]()->void {
+
+	};
+	addAndMakeVisible(testProgramTest2TextButton);
+	//
+	testProgramOutput2Label.setTopLeftPosition(15, 280);
+	testProgramOutput2Label.setSize(300, 40);
+	testProgramOutput2Label.setFont(defaulthFont);
+	addAndMakeVisible(testProgramOutput2Label);
+	//
+	testProgramOutput2TextEditor.setTopLeftPosition(10, 320);
+	testProgramOutput2TextEditor.setSize(800, 280);
+	testProgramOutput2TextEditor.setMultiLine(true);
+	testProgramOutput2TextEditor.setReturnKeyStartsNewLine(true);
+	testProgramOutput2TextEditor.setTabKeyUsedAsCharacter(true);
+	testProgramOutput2TextEditor.setFont(defaulthFont);
+	testProgramOutput2TextEditor.setEnabled(false);
+	addAndMakeVisible(testProgramOutput2TextEditor);
+	//
+	swicher.setTopLeftPosition(300, 630);
+	swicher.setSize(100, 40);
+	swicher.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+	swicher.setRange(1.f, 2.f, 1.f);
+	swicher.setValue(1.f);
+	swicher.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 30);
+	swicher.onValueChange = [this]() {
+		if (swicher.getValue() == 1) {
+			testProgramInputFileDataLabel.setVisible(false);
+			testProgramInputFileDataTextEditor.setVisible(false);
+			testProgramOutput2Label.setVisible(false);
+			testProgramOutput2TextEditor.setVisible(false);
+			testProgramTest2TextButton.setVisible(false);
+			testProgramInputFileDataLoadFromFileTextButton.setVisible(false);
+			//
+			inputDataTextEditor.setVisible(true);
+			queryTextEditor.setVisible(true);
+			getTextButton.setVisible(true);
+			loadIputDataFromFileTextButton.setVisible(true);
+			inputDataLabel.setVisible(true);
+			queryLabel.setVisible(true);
+			outputLabel.setVisible(true);
+			outputTextEditor.setVisible(true);
+		}
+		else {
+			testProgramInputFileDataLabel.setVisible(true);
+			testProgramInputFileDataTextEditor.setVisible(true);
+			testProgramOutput2Label.setVisible(true);
+			testProgramOutput2TextEditor.setVisible(true);
+			testProgramTest2TextButton.setVisible(true);
+			testProgramInputFileDataLoadFromFileTextButton.setVisible(true);
+			//
+			inputDataTextEditor.setVisible(false);
+			queryTextEditor.setVisible(false);
+			getTextButton.setVisible(false);
+			loadIputDataFromFileTextButton.setVisible(false);
+			inputDataLabel.setVisible(false);
+			queryLabel.setVisible(false);
+			outputLabel.setVisible(false);
+			outputTextEditor.setVisible(false);
+		}
+	};
+	addAndMakeVisible(swicher);
+	//
+	testProgramInputFileDataLabel.setVisible(false);
+	testProgramInputFileDataTextEditor.setVisible(false);
+	testProgramOutput2Label.setVisible(false);
+	testProgramOutput2TextEditor.setVisible(false);
+	testProgramTest2TextButton.setVisible(false);
+	testProgramInputFileDataLoadFromFileTextButton.setVisible(false);
 }
 
 MainComponent::~MainComponent()

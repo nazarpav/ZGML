@@ -34,6 +34,14 @@ private:
 	juce::Label testProgramQueryLabel;
 	juce::TextEditor testProgramQueryTextEditor;
 	juce::Label testProgramOutputLabel;
-	juce::TextEditor testProgramOutputTextEditor;
+	juce::TextEditor testProgramOutputTextEditor;//
+	juce::Label testProgramInputFileDataLabel;
+	juce::TextEditor testProgramInputFileDataTextEditor;
+	juce::Label testProgramOutput2Label;
+	juce::TextEditor testProgramOutput2TextEditor;
+	juce::TextButton testProgramTest2TextButton;
+	juce::TextButton testProgramInputFileDataLoadFromFileTextButton;
+	//#########################
+	juce::Slider swicher;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
