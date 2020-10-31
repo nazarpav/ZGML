@@ -78,6 +78,10 @@ const std::string Parser::parse(const std::string& inputData, const std::string&
 		subQuery = query.substr(beginSubQuery + currentOperator->getSymbol().size(), endSubQuery - beginSubQuery - currentOperator->getSymbol().size());
 		if (isAllowWhiteSpaceInQuery)
 			subQuery.erase(remove(subQuery.begin(), subQuery.end(), ' '), subQuery.end());
+		else if (subQuery.find(' ') != std::string::npos) {
+			resultIdentificator = ZGMLOperatorReturnValue::Warning;
+			return "Not Found!";
+		}
 		switch (currentOperator->Action(inputData, beginInput, endInput, subQuery, out))
 		{
 		case ZGMLOperatorReturnValue::Error:

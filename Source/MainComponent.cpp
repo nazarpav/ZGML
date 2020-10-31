@@ -240,7 +240,29 @@ MainComponent::MainComponent() :
 	testProgramTest2TextButton.setSize(200, 30);
 	testProgramTest2TextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::orange);
 	testProgramTest2TextButton.onClick = [this]()->void {
-
+		if (inputFileName.size() == 0) {
+			testProgramOutputTextEditor.setText("Please, select file");
+		}
+		testProgramOutputTextEditor.setText("");
+		std::vector<std::string> queries;
+		std::string error;
+		std::string input = inputFileParser.ParseFromFileGetInputData(inputFileName);
+		if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error))
+		{
+			StandartParser parser;
+			ZGMLOperatorReturnValue resultIdentificator;
+			std::string result;
+			for (size_t i = 0; i < queries.size(); i++)
+			{
+				result = parser.parse(input, queries[i], resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState());
+				DrawColurText(testProgramOutputTextEditor, result, resultIdentificator, true);
+				if (i < queries.size() - 1)
+					testProgramOutputTextEditor.insertTextAtCaret("\n");
+			}
+		}
+		else {
+			testProgramQueryTextEditor.setText(error);
+		}
 	};
 	addAndMakeVisible(testProgramTest2TextButton);
 	//

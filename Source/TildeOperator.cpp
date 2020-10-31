@@ -6,10 +6,14 @@ TildeOperator::TildeOperator() :BaseZGMLOperator("~")
 
 ZGMLOperatorReturnValue TildeOperator::Action(const std::string& input, size_t& beginInput, size_t& endInput, std::string& subQuery, std::string& out)
 {
+	std::string outErrorMessage("Not Found!");
+	if (subQuery == "") {
+		out = outErrorMessage;
+		return ZGMLOperatorReturnValue::Warning;
+	}
 	const std::string beginSymbol("\"");
 	const std::string endSymbol("\"");
 	//const std::string outErrorMessage("\"" + subQuery + "\" attribute does not exist.");
-	std::string outErrorMessage("Not Found!");
 	std::string trimedInput = input.substr(beginInput, endInput - beginInput);
 	if (!trimTagToEnd(trimedInput, outErrorMessage)) {
 		return ZGMLOperatorReturnValue::Error;
