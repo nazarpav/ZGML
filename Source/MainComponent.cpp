@@ -2,7 +2,7 @@
 void MainComponent::DrawColurText(juce::TextEditor& output, const juce::String& data, const ZGMLOperatorReturnValue& type, bool isAppend = false)
 {
 	if (!isAppend)
-		output.setText("");
+		output.clear();
 	if (type == ZGMLOperatorReturnValue::CorrectExit) {
 		output.insertTextAtCaret(data);
 		return;
@@ -24,7 +24,7 @@ void MainComponent::DrawColurText(juce::TextEditor& output, const juce::String& 
 }
 MainComponent::MainComponent() :
 	testProgramLabelLabel("testProgramLabelLabel", "Test program with file"),
-	testProgramQueryLabel("testProgramQueryLabel", "Query list:"),
+	testProgramQueryLabel("testProgramQueryLabel", "Queries:"),
 	testProgramOutputLabel("testProgramOutputLabel", "Output:"),
 	inputDataLabel("inputDataLabel", "Input data:"),
 	getTextButton("Get"),
