@@ -12,7 +12,6 @@ ZGMLOperatorReturnValue DotOperator::Action(const std::string& input, size_t& be
 		out = outError;
 		return ZGMLOperatorReturnValue::Error;
 	}
-	//size_t endOfOpenTag = input.find(">", beginInput);
 	size_t saveEndInput = endInput;
 	endInput = input.find("</" + subQuery + ">");
 	if (endInput == std::string::npos || endInput > saveEndInput)

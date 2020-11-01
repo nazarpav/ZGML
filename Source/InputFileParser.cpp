@@ -28,31 +28,36 @@ const std::string InputFileParser::GetAllDataFromFile(const std::string filePath
 		return "File not found!";
 	}
 }
-const std::string InputFileParser::ParseFromFileGetInputData(const std::string filePath)
+const std::string InputFileParser::ParseFromFileGetInputData(const std::string filePath, bool& isCorrect)
 {
-	bool isCorrect;
 	std::string res = GetAllDataFromFile(filePath, isCorrect);
-	if (isCorrect)
-		return ParseFromStringGetInputData(res);
-	else
+	if (isCorrect) {
+		res = ParseFromStringGetInputData(res, isCorrect);
 		return res;
+	}
+	else {
+		return res;
+	}
 }
-const std::string InputFileParser::ParseFromStringGetInputData(const std::string input)
+const std::string InputFileParser::ParseFromStringGetInputData(const std::string input, bool& isCorrect)
 {
 	std::istringstream iss(input);
 	std::string line;
 	std::getline(iss, line);
 	if (line == "") {
+		isCorrect = false;
 		return "Input is empty";
 	}
 	size_t indexBegin;
 	size_t indexEnd;
 	indexBegin = line.find_first_not_of(' ');
 	if (indexBegin == std::string::npos) {
+		isCorrect = false;
 		return "Q or N not valid";
 	}
 	indexEnd = line.find(' ', indexBegin);
 	if (indexBegin == std::string::npos) {
+		isCorrect = false;
 		return "Q or N not valid";
 	}
 	size_t inputDataStringCount;
@@ -61,13 +66,15 @@ const std::string InputFileParser::ParseFromStringGetInputData(const std::string
 	}
 	catch (std::exception ex)
 	{
+		isCorrect = false;
 		return "Q or N not valid";
 	}
 	std::string result;
 	for (size_t i = 0; i < inputDataStringCount; i++) {
 		getline(iss, line);
-		result += line;
+		result += line + "\n";
 	}
+	isCorrect = true;
 	return result;
 }
 const bool InputFileParser::ParseFromStringGetQueries(const std::string& input, std::vector<std::string>& queries, std::string& error)const

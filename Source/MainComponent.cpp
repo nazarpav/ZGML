@@ -60,7 +60,8 @@ MainComponent::MainComponent() :
 		{
 			inputDataTextEditor.setText("Please, select file");
 		}
-		inputDataTextEditor.setText(inputFileParser.ParseFromFileGetInputData(inputFile));
+		bool isCorrect;
+		inputDataTextEditor.setText(inputFileParser.ParseFromFileGetInputData(inputFile, isCorrect));
 	};
 	addAndMakeVisible(loadIputDataFromFileTextButton);
 	//
@@ -185,11 +186,13 @@ MainComponent::MainComponent() :
 		if (inputFileName.size() == 0) {
 			testProgramOutputTextEditor.setText("Please, select file");
 		}
-		testProgramOutputTextEditor.setText("");
+		testProgramOutputTextEditor.clear();
 		std::vector<std::string> queries;
 		std::string error;
-		std::string input = inputFileParser.ParseFromFileGetInputData(inputFileName);
-		if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error))
+		bool isCorrect;
+		std::string input = inputFileParser.ParseFromFileGetInputData(inputFileName, isCorrect);
+		if (!isCorrect)testProgramOutputTextEditor.setText(input);
+		else if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error))
 		{
 			StandartParser parser;
 			ZGMLOperatorReturnValue resultIdentificator;
@@ -203,7 +206,7 @@ MainComponent::MainComponent() :
 			}
 		}
 		else {
-			testProgramQueryTextEditor.setText(error);
+			testProgramOutputTextEditor.setText(error);
 		}
 	};
 	addAndMakeVisible(testProgramTestTextButton);
@@ -224,7 +227,8 @@ MainComponent::MainComponent() :
 		{
 			testProgramInputFileDataTextEditor.setText("Please, select file");
 		}
-		testProgramInputFileDataTextEditor.setText(inputFileParser.ParseFromFileGetInputData(inputFile));
+		bool isCorrect;
+		testProgramInputFileDataTextEditor.setText(inputFileParser.GetAllDataFromFile(inputFile, isCorrect));
 	};
 	addAndMakeVisible(testProgramInputFileDataLoadFromFileTextButton);
 	//
@@ -240,28 +244,28 @@ MainComponent::MainComponent() :
 	testProgramTest2TextButton.setSize(200, 30);
 	testProgramTest2TextButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colours::orange);
 	testProgramTest2TextButton.onClick = [this]()->void {
-		if (inputFileName.size() == 0) {
-			testProgramOutputTextEditor.setText("Please, select file");
-		}
-		testProgramOutputTextEditor.setText("");
+		testProgramOutput2TextEditor.clear();
 		std::vector<std::string> queries;
 		std::string error;
-		std::string input = inputFileParser.ParseFromFileGetInputData(inputFileName);
-		if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error))
-		{
+		if (inputFileParser.ParseFromStringGetQueries(testProgramInputFileDataTextEditor.getText().toStdString(), queries, error)) {
 			StandartParser parser;
 			ZGMLOperatorReturnValue resultIdentificator;
 			std::string result;
-			for (size_t i = 0; i < queries.size(); i++)
-			{
-				result = parser.parse(input, queries[i], resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState());
-				DrawColurText(testProgramOutputTextEditor, result, resultIdentificator, true);
+			bool isCorrect;
+			std::string inputData = inputFileParser.ParseFromStringGetInputData(testProgramInputFileDataTextEditor.getText().toStdString(), isCorrect);
+			if (!isCorrect) {
+				testProgramOutput2TextEditor.setText(error);
+				return;
+			}
+			for (size_t i = 0; i < queries.size(); i++) {
+				result = parser.parse(inputData, queries[i], resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState());
+				DrawColurText(testProgramOutput2TextEditor, result, resultIdentificator, true);
 				if (i < queries.size() - 1)
-					testProgramOutputTextEditor.insertTextAtCaret("\n");
+					testProgramOutput2TextEditor.insertTextAtCaret("\n");
 			}
 		}
 		else {
-			testProgramQueryTextEditor.setText(error);
+			testProgramOutput2TextEditor.setText(error);
 		}
 	};
 	addAndMakeVisible(testProgramTest2TextButton);
@@ -283,11 +287,14 @@ MainComponent::MainComponent() :
 	swicher.setTopLeftPosition(300, 630);
 	swicher.setSize(100, 40);
 	swicher.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
+	swicher.setColour(juce::Slider::ColourIds::backgroundColourId, juce::Colours::red);
+	swicher.setColour(juce::Slider::ColourIds::textBoxBackgroundColourId, juce::Colours::red);
+	swicher.setColour(juce::Slider::ColourIds::thumbColourId, juce::Colours::orange);
 	swicher.setRange(1.f, 2.f, 1.f);
 	swicher.setValue(1.f);
 	swicher.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 30);
 	swicher.onValueChange = [this]() {
-		if (swicher.getValue() == 1) {
+		if (swicher.getValue() == 2) {
 			testProgramInputFileDataLabel.setVisible(false);
 			testProgramInputFileDataTextEditor.setVisible(false);
 			testProgramOutput2Label.setVisible(false);
@@ -324,12 +331,14 @@ MainComponent::MainComponent() :
 	};
 	addAndMakeVisible(swicher);
 	//
-	testProgramInputFileDataLabel.setVisible(false);
-	testProgramInputFileDataTextEditor.setVisible(false);
-	testProgramOutput2Label.setVisible(false);
-	testProgramOutput2TextEditor.setVisible(false);
-	testProgramTest2TextButton.setVisible(false);
-	testProgramInputFileDataLoadFromFileTextButton.setVisible(false);
+	inputDataTextEditor.setVisible(false);
+	queryTextEditor.setVisible(false);
+	getTextButton.setVisible(false);
+	loadIputDataFromFileTextButton.setVisible(false);
+	inputDataLabel.setVisible(false);
+	queryLabel.setVisible(false);
+	outputLabel.setVisible(false);
+	outputTextEditor.setVisible(false);
 }
 
 MainComponent::~MainComponent()
