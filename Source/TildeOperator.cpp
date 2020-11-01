@@ -16,6 +16,7 @@ ZGMLOperatorReturnValue TildeOperator::Action(const std::string& input, size_t& 
 	//const std::string outErrorMessage("\"" + subQuery + "\" attribute does not exist.");
 	std::string trimedInput = input.substr(beginInput, endInput - beginInput);
 	if (!trimTagToEnd(trimedInput, outErrorMessage)) {
+		out = outErrorMessage;
 		return ZGMLOperatorReturnValue::Error;
 	}
 	size_t beginAttributeIndex = findBeginAttributeIndex(trimedInput, subQuery);
@@ -31,9 +32,15 @@ ZGMLOperatorReturnValue TildeOperator::Action(const std::string& input, size_t& 
 const bool TildeOperator::trimTagToEnd(std::string& input, std::string& error)const
 {
 	const std::string _error = "Syntax error!";
+	size_t lastTagBeginIndex = input.find("<");
 	size_t endTagIndex = input.find(">");
 	if (endTagIndex == std::string::npos) {
 		error = _error;
+		return false;
+	}
+	if (lastTagBeginIndex != std::string::npos && lastTagBeginIndex < endTagIndex)
+	{
+		error = "Not Found!";
 		return false;
 	}
 	input = input.substr(0u, endTagIndex);
