@@ -33,7 +33,7 @@ MainComponent::MainComponent() :
 	testProgramSelectFileTextButton("SelectFile"),
 	queryLabel("queryLabel", "Query:"),
 	outputLabel("outputLabel", "Output data:"),
-	isAllowWhiteSpaceInQuery("is allow white space in query"),
+	isAllowWhiteSpaceInQuery("is allow whitespace in query"),
 	testProgramInputFileDataLabel("testProgramInputFileDataLabel", "InputFileData"),
 	testProgramOutput2Label("testProgramOutput2Label", "Output:"),
 	testProgramTest2TextButton("Test"),
