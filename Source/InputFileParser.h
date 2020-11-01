@@ -9,9 +9,9 @@ class InputFileParser
 private:
 	StandartParser parser;
 public:
-	const bool ParseFromFileGetQueries(const std::string& filePath, std::vector<std::string>& queries, std::string& error);
+	const bool ParseFromFileGetQueries(const std::string& filePath, std::vector<std::string>& queries, std::string& error, const bool& isEnableRestrictions);
 	const std::string GetAllDataFromFile(const std::string filePath, bool& isCorrect);
 	const std::string ParseFromFileGetInputData(const std::string filePath, bool& isCorrect);
 	const std::string ParseFromStringGetInputData(const std::string input, bool& isCorrect);
-	const bool ParseFromStringGetQueries(const std::string& input, std::vector<std::string>& queries, std::string& error) const;
+	const bool ParseFromStringGetQueries(const std::string& input, std::vector<std::string>& queries, std::string& error, const bool& isEnableRestrictions) const;
 };

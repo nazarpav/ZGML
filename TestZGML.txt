@@ -1,4 +1,4 @@
-72 10
+73 10
 <html>
 <head>
     <title>@ViewData["Title"]Nazar Pavliuk</title>
@@ -11,7 +11,8 @@
     <header>
         <nav class="navbar navbar-expand-xl navbar-dark NavBarStyle">
             <img src="~/images/_LayoutImages/LogoSmall.png" title="ScrollMy☺" style="height:42px; margin-right: 15px;" id="SpeedButton" alt="Home"></img>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

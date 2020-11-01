@@ -16,12 +16,8 @@ ZGMLOperatorReturnValue DotOperator::Action(const std::string& input, size_t& be
 			return ZGMLOperatorReturnValue::Error;
 		}
 		firtTagIndexEnd = input.find(' ', firtTagIndex);
-		if (firtTagIndex == std::string::npos) {
-			out = outError;
-			return ZGMLOperatorReturnValue::Error;
-		}
 		firtTagIndexEnd2 = input.find('>', firtTagIndex);
-		if (firtTagIndex == std::string::npos) {
+		if (firtTagIndexEnd2 == std::string::npos) {
 			out = outError;
 			return ZGMLOperatorReturnValue::Error;
 		}

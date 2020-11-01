@@ -34,6 +34,7 @@ MainComponent::MainComponent() :
 	queryLabel("queryLabel", "Query:"),
 	outputLabel("outputLabel", "Output data:"),
 	isAllowWhiteSpaceInQuery("is allow whitespace in query"),
+	isEnableRestrictions("is enable restrictions"),
 	testProgramInputFileDataLabel("testProgramInputFileDataLabel", "InputFileData"),
 	testProgramOutput2Label("testProgramOutput2Label", "Output:"),
 	testProgramTest2TextButton("Test"),
@@ -91,7 +92,7 @@ MainComponent::MainComponent() :
 	getTextButton.onClick = [this]()->void {
 		StandartParser parser;
 		ZGMLOperatorReturnValue resultIdentificator;
-		std::string result = parser.parse(inputDataTextEditor.getText().toStdString(), queryTextEditor.getText().toStdString(), resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState());
+		std::string result = parser.parse(inputDataTextEditor.getText().toStdString(), queryTextEditor.getText().toStdString(), resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState(), isEnableRestrictions.getToggleState());
 		DrawColurText(outputTextEditor, result, resultIdentificator);
 	};
 	addAndMakeVisible(getTextButton);
@@ -115,6 +116,12 @@ MainComponent::MainComponent() :
 	isAllowWhiteSpaceInQuery.setSize(200, 40);
 	isAllowWhiteSpaceInQuery.setColour(juce::ToggleButton::ColourIds::textColourId, juce::Colours::orange);
 	addAndMakeVisible(isAllowWhiteSpaceInQuery);
+	//
+	isEnableRestrictions.setTopLeftPosition(220, 680);
+	isEnableRestrictions.setSize(200, 40);
+	isEnableRestrictions.setColour(juce::ToggleButton::ColourIds::textColourId, juce::Colours::orange);
+	isEnableRestrictions.setToggleState(true, true);
+	addAndMakeVisible(isEnableRestrictions);
 	//////////////#########################
 	testProgramLabelLabel.setTopLeftPosition(windowW - 370, 30);
 	testProgramLabelLabel.setSize(330, 40);
@@ -136,7 +143,7 @@ MainComponent::MainComponent() :
 		}
 		std::vector<std::string> queries;
 		std::string error;
-		if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error))
+		if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error, isEnableRestrictions.getToggleState()))
 		{
 			std::string queriesList;
 			for (auto item : queries)
@@ -192,21 +199,21 @@ MainComponent::MainComponent() :
 		bool isCorrect;
 		std::string input = inputFileParser.ParseFromFileGetInputData(inputFileName, isCorrect);
 		if (!isCorrect)testProgramOutputTextEditor.setText(input);
-		else if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error))
+		else if (inputFileParser.ParseFromFileGetQueries(inputFileName, queries, error, isEnableRestrictions.getToggleState()))
 		{
 			StandartParser parser;
 			ZGMLOperatorReturnValue resultIdentificator;
 			std::string result;
 			for (size_t i = 0; i < queries.size(); i++)
 			{
-				result = parser.parse(input, queries[i], resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState());
+				result = parser.parse(input, queries[i], resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState(), isEnableRestrictions.getToggleState());
 				DrawColurText(testProgramOutputTextEditor, result, resultIdentificator, true);
 				if (i < queries.size() - 1)
 					testProgramOutputTextEditor.insertTextAtCaret("\n");
 			}
 		}
 		else {
-			testProgramOutputTextEditor.setText(error);
+			DrawColurText(testProgramOutputTextEditor, error, ZGMLOperatorReturnValue::Error);
 		}
 	};
 	addAndMakeVisible(testProgramTestTextButton);
@@ -247,7 +254,7 @@ MainComponent::MainComponent() :
 		testProgramOutput2TextEditor.clear();
 		std::vector<std::string> queries;
 		std::string error;
-		if (inputFileParser.ParseFromStringGetQueries(testProgramInputFileDataTextEditor.getText().toStdString(), queries, error)) {
+		if (inputFileParser.ParseFromStringGetQueries(testProgramInputFileDataTextEditor.getText().toStdString(), queries, error, isEnableRestrictions.getToggleState())) {
 			StandartParser parser;
 			ZGMLOperatorReturnValue resultIdentificator;
 			std::string result;
@@ -258,14 +265,14 @@ MainComponent::MainComponent() :
 				return;
 			}
 			for (size_t i = 0; i < queries.size(); i++) {
-				result = parser.parse(inputData, queries[i], resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState());
+				result = parser.parse(inputData, queries[i], resultIdentificator, isAllowWhiteSpaceInQuery.getToggleState(), isEnableRestrictions.getToggleState());
 				DrawColurText(testProgramOutput2TextEditor, result, resultIdentificator, true);
 				if (i < queries.size() - 1)
 					testProgramOutput2TextEditor.insertTextAtCaret("\n");
 			}
 		}
 		else {
-			testProgramOutput2TextEditor.setText(error);
+			DrawColurText(testProgramOutput2TextEditor, error, ZGMLOperatorReturnValue::Error);
 		}
 	};
 	addAndMakeVisible(testProgramTest2TextButton);

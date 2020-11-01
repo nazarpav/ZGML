@@ -18,6 +18,7 @@ private:
 	std::string inputFileName;
 	//
 	juce::ToggleButton isAllowWhiteSpaceInQuery;
+	juce::ToggleButton isEnableRestrictions;
 	//
 	juce::TextEditor inputDataTextEditor;
 	juce::TextEditor queryTextEditor;

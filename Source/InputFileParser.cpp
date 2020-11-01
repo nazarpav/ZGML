@@ -1,10 +1,13 @@
 #include"InputFileParser.h"
-const bool InputFileParser::ParseFromFileGetQueries(const std::string& filePath, std::vector<std::string>& queries, std::string& error)
+const bool InputFileParser::ParseFromFileGetQueries(const std::string& filePath, std::vector<std::string>& queries, std::string& error, const bool& isEnableRestrictions)
 {
 	bool isCorrect;
 	std::string res = GetAllDataFromFile(filePath, isCorrect);
 	if (isCorrect) {
-		ParseFromStringGetQueries(res, queries, error);
+		if (!ParseFromStringGetQueries(res, queries, error, isEnableRestrictions)) {
+			error = error;
+			return false;
+		}
 		return true;
 	}
 	else {
@@ -77,8 +80,11 @@ const std::string InputFileParser::ParseFromStringGetInputData(const std::string
 	isCorrect = true;
 	return result;
 }
-const bool InputFileParser::ParseFromStringGetQueries(const std::string& input, std::vector<std::string>& queries, std::string& error)const
+const bool InputFileParser::ParseFromStringGetQueries(const std::string& input, std::vector<std::string>& queries, std::string& error, const bool& isEnableRestrictions)const
 {
+	size_t Q_MAX = 20;
+	size_t Q_MIN = 1;
+
 	std::istringstream iss(input);
 	std::string line;
 	std::getline(iss, line);
@@ -124,6 +130,14 @@ const bool InputFileParser::ParseFromStringGetQueries(const std::string& input, 
 	catch (std::exception ex)
 	{
 		error = "Q or N not valid";
+		return false;
+	}
+	if (isEnableRestrictions && queriesStringCount > Q_MAX) {
+		error = "Query quantity max is " + std::to_string(Q_MAX) + ", current quantity is " + std::to_string(queriesStringCount);
+		return false;
+	}
+	else if (isEnableRestrictions && queriesStringCount < Q_MIN) {
+		error = "Query quantity min is " + std::to_string(Q_MIN) + ", current quantity is " + std::to_string(queriesStringCount);
 		return false;
 	}
 	for (size_t i = 0; i < inputDataStringCount; i++) {
