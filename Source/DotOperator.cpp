@@ -38,12 +38,12 @@ ZGMLOperatorReturnValue DotOperator::Action(const std::string& input, size_t& be
 			firtTagIndex = firtTagIndexEnd+1;
 		}
 	}
-	size_t saveEndInput = endInput;
-	endInput = input.find("</" + subQuery + ">", beginInput);
-	if (endInput == std::string::npos || endInput > saveEndInput)
-	{
-		out = outError;
-		return ZGMLOperatorReturnValue::Error;
-	}
+	//size_t saveEndInput = endInput;
+	//endInput = input.find("</" + subQuery + ">", beginInput);
+	//if (endInput == std::string::npos || endInput > saveEndInput)
+	//{
+	//	out = outError;
+	//	return ZGMLOperatorReturnValue::Error;
+	//}
 	return ZGMLOperatorReturnValue::Next;
 }
